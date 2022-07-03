@@ -1,0 +1,15 @@
+[core]
+	editor = nvim
+[diff]
+	tool = nvim -d
+[alias]
+	st = status --short
+	last = log -1
+	graph = log --oneline --graph --all
+	co = checkout
+[color]
+	ui = auto
+[credential]
+	helper = cache
+[init]
+	defaultBranch = main
