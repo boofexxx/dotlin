@@ -24,9 +24,9 @@ local function tabline()
         -- set the tab page number (for mouse clicks)
         s = s .. '%' .. i .. 'T'
         if tab == current_tab then
-            s = string.format('%s %s %s: %s', s, '%#TabLineSel#', i, name)
+            s = string.format('%s %s %s:%s', s, '%#TabLineSel#', i, name)
         else
-            s = string.format('%s %s %s: %s', s, '%#TabLine#', i, name)
+            s = string.format('%s %s %s:%s', s, '%#TabLine#', i, name)
         end
     end
     return string.format('%s %s', s, '%#TabLineFill#')
