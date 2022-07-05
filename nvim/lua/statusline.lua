@@ -57,11 +57,10 @@ M.modes = setmetatable({
 })
 
 function M.is_truncated(width)
-    if vim.opt.laststatus._value == 3 then
-        return
-    end
-    local current_width = api.nvim_win_get_width(0)
-    return current_width < width
+    -- if global statusline is used we omit truncating
+    if vim.opt.laststatus._value == 3 then return false end
+
+    return api.nvim_win_get_width(0) < width
 end
 
 function M:get_current_mode()
@@ -74,35 +73,20 @@ function M:get_current_mode()
 end
 
 function M:get_git_status()
-    -- use fallback because it doesn't set this variable on the initial `BufEnter`
-    -- local signs = vim.b.gitsigns_status_dict or { head = '', added = 0, changed = 0, removed = 0 }
     local signs = vim.b.gitsigns_status_dict
-
-    if not signs then return '' end
-
-    local is_head_empty = signs.head == ''
-
-    if self.is_truncated(self.trunc_width.git_status) then
-        return not is_head_empty and string.format(' © %s ', signs.head or '') or ''
+    if not signs or signs.head == '' then
+        return ''
     end
 
-    return not is_head_empty and string.format(
-        ' +%s ~%s -%s | © %s ',
-        signs.added, signs.changed, signs.removed, signs.head
-    ) or ''
+    if self.is_truncated(self.trunc_width.git_status) then
+        return string.format('© %s', signs.head)
+    end
+
+    return string.format('+%s ~%s -%s | © %s', signs.added or 0, signs.changed or 0, signs.removed or 0, signs.head)
 end
 
 function M.get_filename()
     return ' %<%f %m '
-end
-
-function M.get_filetype()
-    -- local file_name, file_ext = fn.expand('%:t'), fn.expand('%:e')
-    -- local icon = require'nvim-web-devicons'.get_icon(file_name, file_ext, { default = true })
-    local filetype = vim.bo.filetype
-
-    if filetype == '' then return '' end
-    return string.format(' %s ', filetype)
 end
 
 function M.get_line_col()
@@ -184,9 +168,11 @@ function M:set_inactive()
     return self.colors.inactive .. '%= %F %='
 end
 
-Statusline = setmetatable(M, {
-    __call = function(statusline, mode)
-        if mode == 'active' then return statusline:set_active() end
-        if mode == 'inactive' then return statusline:set_inactive() end
+function M.setup()
+    function vim.statusline(mode)
+        if mode == 'active' then return M:set_active() end
+        if mode == 'inactive' then return M:set_inactive() end
     end
-})
+end
+
+return M
