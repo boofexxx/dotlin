@@ -72,10 +72,11 @@ if s:t_Co >= 256
   hi SpellLocal ctermfg=107 ctermbg=NONE cterm=NONE,underline
   hi SpellRare ctermfg=175 ctermbg=NONE cterm=NONE,underline
 
-  hi StatusLine ctermfg=239 ctermbg=252 cterm=reverse
+  hi StatusLine ctermfg=237 ctermbg=252 cterm=reverse
   hi! link StatusLineTerm StatusLine
   hi StatusLineNC ctermfg=237 ctermbg=137 cterm=reverse
   hi! link StatusLineTermNC StatusLineNC
+  hi! link Treesitter StatusLineNC
   hi TabLine ctermfg=243 ctermbg=NONE cterm=NONE
   hi TabLineFill ctermfg=243 ctermbg=NONE cterm=NONE
   hi TabLineSel ctermfg=142 ctermbg=237 cterm=NONE
