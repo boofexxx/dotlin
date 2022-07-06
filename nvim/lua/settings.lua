@@ -35,6 +35,7 @@ opt.wrap = false
 opt.cursorline = true
 opt.cursorlineopt = 'number'
 opt.laststatus = 3
+opt.showtabline = 2
 opt.showmode = false
 
 -- Tabs, indent

@@ -161,18 +161,16 @@ local function set_active()
         diagnostic = string.format('%s%s%s%s', colors.git, diagnostic, colors.diagnostic_alt, separators[1])
     end
 
-    local filename = string.format('%s%s%s%s', colors.filename, get_filename(), colors.filename_alt, separators[1])
-
     local treesitter = get_treesitter()
     if treesitter ~= '' then
         treesitter = string.format('%s%s%s', colors.treesitter, treesitter, separators[1])
     end
 
-    local filetype = string.format('%s%s%s%s', colors.filetype, vim.bo.filetype, colors.filetype_alt, separators[2])
+    local filetype = string.format('%s%s%s%s', colors.filetype, '%y', colors.filetype_alt, separators[2])
 
     local line_col = string.format('%s%s%s%s', colors.line_col, get_line_col(), colors.line_col_alt, separators[2])
 
-    return table.concat({ mode, git, diagnostic, filename, '%=', treesitter, filetype, line_col })
+    return mode .. git .. '%=' .. treesitter .. '%=' .. diagnostic .. filetype .. line_col
 end
 
 local function set_inactive()

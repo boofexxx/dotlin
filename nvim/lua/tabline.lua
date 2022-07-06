@@ -9,9 +9,9 @@ local function get_tab_name(tab)
 
     name = api.nvim_call_function('fnamemodify', { name, ':p:t' })
     if name == '' then
-        return 'No Name'
+        return 'No Name%m'
     end
-    return name
+    return name .. '%m'
 end
 
 local function tabline()
