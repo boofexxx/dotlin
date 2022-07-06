@@ -1,2 +1,2 @@
 export EDITOR='nvim'
-export LESS='-Ri --mouse --wheel-lines=3'
+export LESS='-F -X -Ri --mouse --wheel-lines=3'
