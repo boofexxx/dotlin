@@ -6,12 +6,18 @@ local function get_tab_name(tab)
     local win = api.nvim_tabpage_get_win(tab)
     local buf = api.nvim_win_get_buf(win)
     local name = api.nvim_buf_get_name(buf)
+    local bufmodified = vim.fn.getbufvar(buf, '&mod')
+
+    local s = ''
+    if bufmodified == 1 then
+        s = ' [+]'
+    end
 
     name = api.nvim_call_function('fnamemodify', { name, ':p:t' })
     if name == '' then
-        return 'No Name%m'
+        return '[No Name]' .. s
     end
-    return name .. '%m'
+    return name .. s
 end
 
 local function tabline()
