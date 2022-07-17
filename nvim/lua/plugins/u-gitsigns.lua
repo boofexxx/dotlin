@@ -28,7 +28,7 @@ require('gitsigns').setup {
     status_formatter             = nil, -- Use default
     max_file_length              = 40000,
     preview_config               = {
-        border = 'none',
+        border = 'single',
         style = 'minimal',
         relative = 'cursor',
         row = 0,

@@ -1,35 +1,14 @@
 local map = vim.keymap.set
 local opts = { buffer = true, noremap = true, silent = true }
 
-local on_attach = function()
+local function on_attach()
     map('n', 'K', vim.lsp.buf.hover, opts)
     map({ 'n', 'i' }, '<C-k>', vim.lsp.buf.signature_help, opts)
 end
 
--- Setup nvim-cmp.
-local cmp = require('cmp')
-local luasnip = require('luasnip')
-
-cmp.setup({
-    snippet = {
-        expand = function(args)
-            luasnip.lsp_expand(args.body)
-        end,
-    },
-    mapping = {
-        ['<C-e>'] = cmp.mapping.close(),
-        ['<C-p>'] = cmp.mapping.select_prev_item(),
-        ['<C-n>'] = cmp.mapping.select_next_item(),
-        ['<C-u>'] = cmp.mapping.scroll_docs(-4),
-        ['<C-d>'] = cmp.mapping.scroll_docs(4),
-        ['<Tab>'] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true })
-    },
-    sources = cmp.config.sources({
-        { name = 'luasnip' },
-        { name = 'nvim_lsp' },
-        { name = 'nvim_lsp_signature_help' },
-    })
-})
+vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "single" })
+vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, { border = "single" })
+vim.diagnostic.config({ float = { border = "single" } })
 
 -- Setup lspconfig.
 local lspconfig = require('lspconfig')
@@ -95,3 +74,35 @@ function vim.lsp.buf.go.imports(wait_ms)
         end
     end
 end
+
+-- Setup nvim-cmp.
+local cmp = require('cmp')
+local luasnip = require('luasnip')
+local winhighlight = {
+    winhighlight = 'Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel',
+}
+
+cmp.setup({
+    snippet = {
+        expand = function(args)
+            luasnip.lsp_expand(args.body)
+        end,
+    },
+    mapping = {
+        ['<C-e>'] = cmp.mapping.close(),
+        ['<C-p>'] = cmp.mapping.select_prev_item(),
+        ['<C-n>'] = cmp.mapping.select_next_item(),
+        ['<C-u>'] = cmp.mapping.scroll_docs(-4),
+        ['<C-d>'] = cmp.mapping.scroll_docs(4),
+        ['<Tab>'] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
+    },
+    sources = cmp.config.sources({
+        { name = 'luasnip' },
+        { name = 'nvim_lsp' },
+        { name = 'nvim_lsp_signature_help' },
+    }),
+    window = {
+        completion = cmp.config.window.bordered(winhighlight),
+        documentation = cmp.config.window.bordered(winhighlight),
+    },
+})

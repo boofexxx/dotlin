@@ -40,7 +40,7 @@ opt.showmode = false
 
 -- Tabs, indent
 opt.expandtab = true
-opt.tabstop = 4
+opt.tabstop = 2
 opt.shiftwidth = 0
 opt.smartindent = true
 
