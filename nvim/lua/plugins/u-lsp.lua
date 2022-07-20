@@ -42,12 +42,13 @@ lspconfig.sumneko_lua.setup {
     },
 }
 
-lspconfig['gopls'].setup {
+lspconfig.gopls.setup {
     cmd = { 'gopls' },
     on_attach = on_attach,
     capabilities = capabilities,
     settings = {
         gopls = {
+            usePlaceholders = true,
             experimentalPostfixCompletions = true,
             analyses = {
                 unusedparams = true,
@@ -94,7 +95,25 @@ cmp.setup({
         ['<C-n>'] = cmp.mapping.select_next_item(),
         ['<C-u>'] = cmp.mapping.scroll_docs(-4),
         ['<C-d>'] = cmp.mapping.scroll_docs(4),
-        ['<Tab>'] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
+        ['<Enter>'] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
+        ['<Tab>'] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+                cmp.select_next_item()
+            elseif luasnip.expand_or_jumpable() then
+                luasnip.expand_or_jump()
+            else
+                fallback()
+            end
+        end, { 'i', 's' }),
+        ['<S-Tab>'] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+                cmp.select_prev_item()
+            elseif luasnip.jumpable(-1) then
+                luasnip.jump(-1)
+            else
+                fallback()
+            end
+        end, { 'i', 's' }),
     },
     sources = cmp.config.sources({
         { name = 'luasnip' },
