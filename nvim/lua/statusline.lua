@@ -99,7 +99,7 @@ local function get_treesitter()
 end
 
 local function get_line_col()
-    return '%l, %c'
+    return '%l:%c'
 end
 
 local function get_lsp_diagnostic()
