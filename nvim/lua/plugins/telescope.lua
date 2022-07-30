@@ -2,9 +2,9 @@ local action_layout = require('telescope.actions.layout')
 
 require('telescope').setup {
     defaults = {
-        layout_strategy = 'vertical',
+        layout_strategy = 'horizontal',
         layout_config = {
-            vertical = { width = 0.9 },
+            horizontal = { width = 0.9 },
             preview_cutoff = 0,
         },
         previewer = false;
