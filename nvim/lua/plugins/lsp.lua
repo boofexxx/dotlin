@@ -14,7 +14,7 @@ vim.diagnostic.config({ float = { border = "single" } })
 local lspconfig = require('lspconfig')
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
-local servers = { 'zls', 'rust_analyzer', 'ccls', 'denols' }
+local servers = { 'zls', 'rust_analyzer', 'clangd', 'denols' }
 for _, lsp in pairs(servers) do
     lspconfig[lsp].setup {
         on_attach = on_attach,
