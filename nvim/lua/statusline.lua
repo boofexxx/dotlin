@@ -148,7 +148,7 @@ local function mode_color()
     return colors.mode
 end
 
-local function set_active()
+local function active()
     local mode = string.format('%s%s%s%s', mode_color(), get_current_mode(), colors.mode_alt, separators[1])
 
     local git = get_git_status()
@@ -173,7 +173,7 @@ local function set_active()
     return mode .. git .. '%=' .. treesitter .. '%=' .. diagnostic .. filetype .. line_col
 end
 
-local function set_inactive()
+local function inactive()
     -- %= - Separation point between alignment sections. Each section will be separated by an equal number of spaces.
     return string.format('%%=%s%s%%=', colors.inactive, get_filename())
 end
@@ -181,9 +181,9 @@ end
 local M = {}
 
 function M.setup()
-    vim.statusline = function(mode)
-        if mode == 'active' then return set_active() end
-        if mode == 'inactive' then return set_inactive() end
+    function vim.statusline(mode)
+        if mode == 'active' then return active() end
+        if mode == 'inactive' then return inactive() end
     end
 end
 
