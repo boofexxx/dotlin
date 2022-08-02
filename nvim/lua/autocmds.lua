@@ -29,14 +29,10 @@ api.nvim_create_autocmd('BufWritePre', {
 
 local statuslineGrp = api.nvim_create_augroup('statuslineGrp', {})
 api.nvim_create_autocmd({ 'WinEnter', 'BufEnter' }, {
-    -- TODO: works improperly. find out why
-    -- callback = function() vim.opt_local.statusline = vim.statusline('active') end,
-    command = "setlocal statusline=%!v:lua.vim.statusline('active')",
+    callback = function() vim.opt_local.statusline = "%!v:lua.vim.statusline('active')" end,
     group = statuslineGrp,
 })
 api.nvim_create_autocmd('WinLeave', {
-    -- TODO: works improperly. find out why
-    -- callback = function() vim.opt_local.statusline = vim.statusline('inactive') end,
-    command = "setlocal statusline=%!v:lua.vim.statusline('inactive')",
+    callback = function() vim.opt_local.statusline = vim.statusline('inactive') end,
     group = statuslineGrp,
 })
